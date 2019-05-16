@@ -37,12 +37,10 @@ main(List<String> arguments) async {
                   "on table_constraints.table_name = constraint_column_usage.table_name "
                   "where table_constraints.table_name = '$_table' "
                   "AND table_constraints.constraint_type = 'PRIMARY KEY';";
+
     List<List<dynamic>> columnResults = await connection.query(_column_query);
     List<List<dynamic>> keyResult = await connection.query(_key_query);
-    // for (final column in columnResults) {
-     // print('   column: ${column[0]}, type: ${column[1]}');
-    // }
-    //TODO: Pass the _table and columnResults to a library to parse into model class
+
     if (columnResults.isNotEmpty) {
       await ClassBuilder(capitalizeFirstLetter(_table), columnResults, keyResult);
     }
